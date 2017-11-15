@@ -1,19 +1,2 @@
-project(RayTracing)
-
-add_library(RayTracing SHARED
-	main.cpp
-	Ray.h
-    Ray.cpp
-    App.h
-    App.cpp
-    RayTracer.h
-    RayTracer.cpp
-    Camera.h
-    Camera.cpp
-    Sphere.h
-    Sphere.cpp
-    Node.h
-    common.h
-)
-
-include_directories(${CMAKE_SOURCE_DIR}/thirdparty)
+add_subdirectory(raytracer)
+add_subdirectory(raytracer_test)

@@ -15,7 +15,7 @@ namespace RayTracing
     {
         m_right = glm::cross(m_target, m_up);
         m_up = glm::cross(m_right, m_target);
-        m_fovScale = tan(fov * 0.5 * M_PI / 180) * 2;
+        m_fovScale = (float)tan(fov * 0.5 * M_PI / 180) * 2;
     }
 
     std::shared_ptr<Ray> Camera::ProductRay(float x, float y)

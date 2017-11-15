@@ -19,7 +19,7 @@ namespace RayTracing {
 
     glm::vec3 Ray::GetDirection() const
     {
-        return m_direction
+        return m_direction;
     }
 
     glm::vec3 Ray::GetPoint(float t) const

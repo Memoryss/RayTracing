@@ -1,8 +1,6 @@
 #ifndef __APP_H__
 #define __APP_H__
 
-#include <windows.h>
-
 namespace RayTracing
 {
     class App
@@ -11,7 +9,7 @@ namespace RayTracing
         App();
         ~App();
 
-        virtual void Init(HWND hwnd, int w, int h);
+        virtual void Init(int w, int h);
 
         virtual void OnInit(int w, int h) = 0;
 
@@ -28,7 +26,7 @@ namespace RayTracing
         virtual void OnStop() = 0;
 
     protected:
-        HWND m_hwnd;
+
         int m_width{};
         int m_height{};
 
