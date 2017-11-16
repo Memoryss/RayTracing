@@ -15,6 +15,9 @@ add_library(raytracer
     common.h
 	Context.cpp
 	Context.h
+    Material.h
+    Light.h
+    Light.cpp
 )
 
 include_directories(${CMAKE_SOURCE_DIR}/thirdparty)
