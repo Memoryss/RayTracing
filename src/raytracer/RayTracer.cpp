@@ -76,7 +76,32 @@ namespace RayTracing
                     color.a = 255;
                     WriteBuffer(j, i, color);
                 }
-                
+            }
+        }
+    }
+
+    void RayTracer::RenderNormal()
+    {
+        assert(m_ctx.get() != nullptr || m_ctx->GetBuffer() != nullptr);
+        for (int i = 0; i < m_height; ++i)
+        {
+            //屏幕上 向下为正y轴  与右手坐标系相反
+            float ratioY = 1 - float(i) / m_height;
+            for (int j = 0; j < m_width; ++j)
+            {
+                float ratioX = float(j) / m_width;
+                auto ray = m_camera->ProductRay(ratioX, ratioY);
+                auto result = m_node->Intersect(ray);
+                if (result->node.get() != NULL)
+                {
+                    glm::vec4 color;
+                    //法线已经归一化 -1~1之间 映射到 0~255
+                    color.r = (result->normal.x + 1) * 128;
+                    color.g = (result->normal.y + 1) * 128;
+                    color.b = (result->normal.z + 1) * 128;
+                    color.a = 255;
+                    WriteBuffer(j, i, color);
+                }
             }
         }
     }

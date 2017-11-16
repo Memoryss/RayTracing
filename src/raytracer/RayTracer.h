@@ -32,6 +32,8 @@ namespace RayTracing
 
         void RenderDepth(float maxDepth);
 
+        void RenderNormal();
+
     protected:
         void WriteBuffer(int x, int y, const glm::vec4 &color);
 

@@ -76,7 +76,7 @@ namespace RayTracing
 
     void DepthApp::OnUpdate()
     {
-        m_rayTracer->RenderDepth(20);
+        m_rayTracer->RenderNormal();
     }
 
     void DepthApp::OnStop()
