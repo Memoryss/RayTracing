@@ -1,4 +1,9 @@
 #include "App.h"
+#ifdef WIN32
+#include <windows.h>
+#else
+#include <sys/time.h>
+#endif
 
 namespace RayTracing
 {
@@ -23,8 +28,8 @@ namespace RayTracing
 
     void App::Update()
     {
-//         static DWORD lastTick = GetTickCount();
-//         DWORD currTick = GetTickCount();
+        static DWORD lastTick = getTickCount();
+        DWORD currTick = getTickCount();
 
         PreUpdate();
 
@@ -32,9 +37,9 @@ namespace RayTracing
 
         PostUpdate();
 
-//         m_frameTime = (currTick - lastTick) * 0.001;
-//         lastTick = currTick;
-// 
+        m_frameTime = (currTick - lastTick) * 0.001f;
+        lastTick = currTick;
+
 //         float frameRate = 1.f / m_frameTime;
 // 
 //         std::stringstream wss;
@@ -46,4 +51,16 @@ namespace RayTracing
     {
         OnStop();
     }
+
+    unsigned long App::getTickCount()
+    {
+#ifdef WIN32
+        return GetTickCount();
+#else
+        struct timeval tv;
+        gettimeofday(&tv, 0);
+        return unsigned((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
+#endif
+    }
+
 }

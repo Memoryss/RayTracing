@@ -2,32 +2,34 @@
 #define __CONTEXT_H__
 
 #include <memory>
+#include <vector>
+#include "common.h"
 
 namespace RayTracing
 {
-    enum BufferType
-    {
-        BT_R8G8B8A8,    //RGBA 共32位
-    };
-
     class Context
     {
     public:
-        Context(int width, int height, BufferType bufferType, void *buffer);
+        Context(int width, int height, BufferType type);
         ~Context();
 
         void *GetBuffer();
-        BufferType GetBufferType();
+        BufferType GetBufferType() const;
 
-        int GetWidth();
-        int GetHeight();
+        void Clear();
+
+        void Present(void *targetBuffer, BufferType targetType);
+
+        int GetWidth() const;
+        int GetHeight() const;
 
     private:
-        int m_width;
-        int m_height;
+        int m_width{};
+        int m_height{};
+        int m_linePatch{};
 
-        BufferType m_bufferType;    //buffer类型
-        void *m_buffer;             //渲染的buffer
+        BufferType m_bufferType;
+        void *m_buffer{nullptr};             //渲染的buffer
     };
 }
 

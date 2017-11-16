@@ -6,6 +6,8 @@
 
 namespace RayTracing
 {
+    enum BufferType;
+
     class Camera;
     class Node;
     class Context;
@@ -15,6 +17,14 @@ namespace RayTracing
     public:
         RayTracer(std::shared_ptr<Context> ctx);
         ~RayTracer();
+
+        void Clear();
+
+        void Begin();
+
+        void End();
+
+        void Present(void *targetBuffer, BufferType type);
 
         void SetCamera(std::shared_ptr<Camera> camera);
 

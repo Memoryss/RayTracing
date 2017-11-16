@@ -1,6 +1,6 @@
 project(raytracer)
 
-add_library(raytracer SHARED
+add_library(raytracer
 	Ray.h
     Ray.cpp
     App.h

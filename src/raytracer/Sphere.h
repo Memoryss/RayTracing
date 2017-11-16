@@ -11,6 +11,8 @@ namespace RayTracing
         Sphere() {};
         Sphere(glm::vec3 &pos, float radius) : Node(pos), m_radius(radius) {}
 
+        void SetRadius(float radius) { m_radius = radius; }
+
         virtual std::shared_ptr<IntersectResult> Intersect(std::shared_ptr<Ray> ray) override;
 
     private:
