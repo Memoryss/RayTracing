@@ -10,6 +10,7 @@ namespace RayTracing
     class RayTracer;
     class Sphere;
     class Camera;
+    class DirectionLight;
 
     class DepthApp : public App
     {
@@ -39,6 +40,7 @@ namespace RayTracing
         std::shared_ptr<RayTracer> m_rayTracer;
         std::shared_ptr<Sphere> m_sphere;
         std::shared_ptr<Camera> m_camera;
+        std::shared_ptr<DirectionLight> m_light;
     };
 }
 

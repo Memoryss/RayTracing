@@ -12,6 +12,7 @@ add_library(raytracer
     Sphere.h
     Sphere.cpp
     Node.h
+    Plane.h
     common.h
 	Context.cpp
 	Context.h

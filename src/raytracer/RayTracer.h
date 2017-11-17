@@ -8,6 +8,7 @@ namespace RayTracing
 {
     enum BufferType;
 
+    class Light;
     class Camera;
     class Node;
     class Context;
@@ -30,9 +31,13 @@ namespace RayTracing
 
         void SetNode(std::shared_ptr<Node> node);
 
+        void SetLight(std::shared_ptr<Light> light);
+
         void RenderDepth(float maxDepth);
 
         void RenderNormal();
+
+        void RayTrace();
 
     protected:
         void WriteBuffer(int x, int y, const glm::vec4 &color);
@@ -45,6 +50,8 @@ namespace RayTracing
         std::shared_ptr<Node> m_node;       //暂时先绘制一个Node
 
         std::shared_ptr<Context> m_ctx;     //上下文
+
+        std::shared_ptr<Light> m_light;     //场景灯光
     };
 }
 
