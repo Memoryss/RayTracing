@@ -2,7 +2,6 @@
 #define __CONTEXT_H__
 
 #include <memory>
-#include <vector>
 #include "common.h"
 
 namespace RayTracing

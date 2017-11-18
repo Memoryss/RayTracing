@@ -8,7 +8,7 @@
 namespace RayTracing
 {
     class RayTracer;
-    class Sphere;
+    class Scene;
     class Camera;
     class DirectionLight;
 
@@ -38,7 +38,7 @@ namespace RayTracing
         HBITMAP m_offscreenBitmap;
 
         std::shared_ptr<RayTracer> m_rayTracer;
-        std::shared_ptr<Sphere> m_sphere;
+        std::shared_ptr<Scene> m_scene;
         std::shared_ptr<Camera> m_camera;
         std::shared_ptr<DirectionLight> m_light;
     };

@@ -2,6 +2,7 @@
 #define __RAY_TRACER_H__
 
 #include <memory>
+#include <vector>
 #include <glm/vec4.hpp>
 
 namespace RayTracing
@@ -10,7 +11,7 @@ namespace RayTracing
 
     class Light;
     class Camera;
-    class Node;
+    class Scene;
     class Context;
 
     class RayTracer
@@ -29,7 +30,7 @@ namespace RayTracing
 
         void SetCamera(std::shared_ptr<Camera> camera);
 
-        void SetNode(std::shared_ptr<Node> node);
+        void SetScene(std::shared_ptr<Scene> scene);
 
         void SetLight(std::shared_ptr<Light> light);
 
@@ -47,7 +48,7 @@ namespace RayTracing
         int m_height{};
 
         std::shared_ptr<Camera> m_camera;   //相机
-        std::shared_ptr<Node> m_node;       //暂时先绘制一个Node
+		std::shared_ptr<Scene> m_scene;     //scene
 
         std::shared_ptr<Context> m_ctx;     //上下文
 

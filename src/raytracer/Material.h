@@ -24,6 +24,11 @@ namespace RayTracing
     class PhongMaterial : public Material
     {
     public:
+		PhongMaterial(const glm::vec3 &kd, const glm::vec3 &ks, float shininess)
+			: m_kd(kd), m_ks(ks), m_shininess(shininess)
+		{
+
+		}
 
         virtual glm::vec4 ray(std::shared_ptr<Ray> ray, std::shared_ptr<Light> light, glm::vec3 position, glm::vec3 normal) override
         {
@@ -39,10 +44,10 @@ namespace RayTracing
         }
 
     private:
-        glm::vec3 m_ka;         //阴影色
-        glm::vec3 m_kd;         //漫反射
-        glm::vec3 m_ks;         //高光
-        float m_d;              //透明度
+		glm::vec3 m_ka{ 0.f, 0.f, 0.f, 1.f };	      //阴影色
+		glm::vec3 m_kd{ 1.f, 1.f, 1.f, 1.f };         //漫反射
+		glm::vec3 m_ks{ 1.f, 1.f, 1.f, 1.f };         //高光
+		float m_d{1.f};              //透明度
         float m_shininess{ 2.f };//高光系数
     };
 

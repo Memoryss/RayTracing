@@ -1,6 +1,6 @@
 #include "RayTracer.h"
 
-#include "Node.h"
+#include "Scene.h"
 #include "Camera.h"
 #include <glm/detail/func_geometric.hpp>
 #include "Context.h"
@@ -49,9 +49,12 @@ namespace RayTracing
         m_camera = camera;
     }
 
-    void RayTracer::SetNode(std::shared_ptr<Node> node)
+    void RayTracer::SetScene(std::shared_ptr<Scene> scene)
     {
-        m_node = node;
+		if (scene.get() != nullptr)
+		{
+			m_scene = scene;
+		}
     }
 
     void RayTracer::SetLight(std::shared_ptr<Light> light)
@@ -68,20 +71,20 @@ namespace RayTracing
             float ratioY = 1 - float(i) / m_height;
             for (int j = 0; j < m_width; ++j)
             {
-                float ratioX = float(j) / m_width;
-                auto ray = m_camera->ProductRay(ratioX, ratioY);
-                auto result = m_node->Intersect(ray);
-                if (result->node.get() != NULL)
-                {
-                    glm::vec4 color;
-                    //把距离信息映射到深度上，用来显示 深度为0显示白色 深度越深  越黑
-                    float depth = 255 - glm::min((float)(result->distance / maxDepth) * 255, 255.f);
-                    color.r = depth;
-                    color.g = depth;
-                    color.b = depth;
-                    color.a = 255;
-                    WriteBuffer(j, i, color);
-                }
+				float ratioX = float(j) / m_width;
+				auto ray = m_camera->ProductRay(ratioX, ratioY);
+				auto result = m_scene->Intersect(ray);
+				if (result->node.get() != NULL)
+				{
+					glm::vec4 color;
+					//把距离信息映射到深度上，用来显示 深度为0显示白色 深度越深  越黑
+					float depth = 255 - glm::min((float)(result->distance / maxDepth) * 255, 255.f);
+					color.r = depth;
+					color.g = depth;
+					color.b = depth;
+					color.a = 255;
+					WriteBuffer(j, i, color);
+				}
             }
         }
     }
@@ -97,7 +100,7 @@ namespace RayTracing
             {
                 float ratioX = float(j) / m_width;
                 auto ray = m_camera->ProductRay(ratioX, ratioY);
-                auto result = m_node->Intersect(ray);
+                auto result = m_scene->Intersect(ray);
                 if (result->node.get() != NULL)
                 {
                     glm::vec4 color;
@@ -123,7 +126,7 @@ namespace RayTracing
             {
                 float ratioX = float(j) / m_width;
                 auto ray = m_camera->ProductRay(ratioX, ratioY);
-                auto result = m_node->Intersect(ray);
+                auto result = m_scene->Intersect(ray);
                 if (result->node.get() != NULL)
                 {
                     auto color = result->node->GetMaterial()->ray(ray, m_light, result->position, result->normal);

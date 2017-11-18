@@ -5,6 +5,8 @@
 #include "Camera.h"
 #include "Light.h"
 #include "Material.h"
+#include "Scene.h"
+#include "Plane.h"
 #include <sstream>
 
 namespace RayTracing
@@ -69,16 +71,30 @@ namespace RayTracing
         m_ctx = std::make_shared<Context>(w, h, BT_B8G8R8A8);
         m_rayTracer = std::make_shared<RayTracer>(m_ctx);
 
-        auto simpleMaterial = std::make_shared<SimpleMaterial>(0.1);
+		auto scene = std::make_shared<Scene>();
 
-        m_sphere = std::make_shared<Sphere>(glm::vec3(0, 10, -10), 10.f);
-        m_sphere->SetMaterial(simpleMaterial);
-        m_camera = std::make_shared<Camera>(glm::vec3(0, 10, 10), glm::vec3(0, 0, -1), glm::vec3(0, 1, 0), 90.f);
+        auto simpleMaterial = std::make_shared<SimpleMaterial>(0.1);
+		auto plane = std::make_shared<Plane>();
+		plane->SetMaterial(simpleMaterial);
+
+		auto phongMaterial1 = std::make_shared<PhongMaterial>(glm::vec3(0.f, 0.f, 1.f), glm::vec3(1.f, 1.f, 1.f), 16);
+        auto sphere1 = std::make_shared<Sphere>(glm::vec3(10, 10, -10), 10.f);
+		sphere1->SetMaterial(phongMaterial1);
+
+		auto phongMaterial2 = std::make_shared<PhongMaterial>(glm::vec3(1.f, 0.f, 0.f), glm::vec3(1.f, 1.f, 1.f), 16);
+		auto sphere2 = std::make_shared<Sphere>(glm::vec3(-10, 10, -10), 10.f);
+		sphere2->SetMaterial(phongMaterial2);
+
+		scene->AddChild(plane);
+		scene->AddChild(sphere1);
+		scene->AddChild(sphere2);
+
+        m_camera = std::make_shared<Camera>(glm::vec3(0, 5, 15), glm::vec3(0, 0, -1), glm::vec3(0, 1, 0), 90.f);
         m_light = std::make_shared<DirectionLight>();
         m_light->m_direction = glm::vec3(1, 1, 1);
         
         m_rayTracer->SetCamera(m_camera);
-        m_rayTracer->SetNode(m_sphere);
+        m_rayTracer->SetScene(scene);
         m_rayTracer->SetLight(m_light);
     }
 
@@ -91,7 +107,7 @@ namespace RayTracing
     {
         m_ctx.reset();
         m_rayTracer.reset();
-        m_sphere.reset();
+        m_scene.reset();
         m_camera.reset();
     }
 }

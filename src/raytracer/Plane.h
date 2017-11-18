@@ -4,6 +4,7 @@
 #include "Node.h"
 #include <glm/vec3.hpp>
 #include <glm/detail/func_geometric.hpp>
+#include "Ray.h"
 
 namespace RayTracing
 {
@@ -18,17 +19,18 @@ namespace RayTracing
 
         virtual std::shared_ptr<IntersectResult> Intersect(std::shared_ptr<Ray> ray) override
         {
-            float nDotR = glm::dot(ray->m_direction, m_normal);
+            float nDotR = glm::dot(ray->GetDirection(), m_normal);
             if (nDotR >= 0.f)
             {
                 return std::make_shared<IntersectResult>();
             }
 
-            float 
+			float nDotD = glm::dot(m_normal, ray->GetOrigin() - m_position);
             auto result = std::make_shared<IntersectResult>();
-            result->node = std::enable_shared_from_this();
+            result->node = shared_from_this();
             result->normal = m_normal;
-            result->
+			result->distance = -nDotD / nDotR; //TODO ?
+			return result;
         }
 
     private:

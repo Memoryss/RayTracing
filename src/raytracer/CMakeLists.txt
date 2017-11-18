@@ -19,6 +19,10 @@ add_library(raytracer
     Material.h
     Light.h
     Light.cpp
+	Intersect.h
+	Plane.h
+	Scene.h
+	Scene.cpp
 )
 
 include_directories(${CMAKE_SOURCE_DIR}/thirdparty)
