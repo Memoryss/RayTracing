@@ -11,10 +11,9 @@ namespace RayTracing
     class Plane : public Node
     {
     public:
-        Plane(glm::vec3 normal, float d, const std::string &name) : m_normal(glm::normalize(normal)), m_d(d)
+        Plane(glm::vec3 normal, float d) : m_normal(glm::normalize(normal)), m_d(d)
         {
             m_position = m_normal * m_d;
-            m_name = name;
         }
 
         virtual std::shared_ptr<IntersectResult> Intersect(std::shared_ptr<Ray> ray) override
@@ -30,6 +29,7 @@ namespace RayTracing
             result->node = shared_from_this();
             result->normal = m_normal;
 			result->distance = -nDotD / nDotR; //TODO ?
+            result->position = ray->GetPoint(result->distance);
 			return result;
         }
 

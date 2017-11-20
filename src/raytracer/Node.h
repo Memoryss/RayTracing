@@ -16,6 +16,7 @@ namespace RayTracing
     {
     public:
         Node() {}
+        Node(const glm::vec3 &pos) : m_position(pos) {}
         Node(const glm::vec3 &pos, const std::string &name) : m_position(pos), m_name(name) {}
 
         glm::vec3 GetPosition() const { return m_position; }

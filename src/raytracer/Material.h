@@ -8,6 +8,7 @@
 #include <glm/detail/func_common.hpp>
 #include "Ray.h"
 #include "Light.h"
+#include <iostream>
 
 namespace RayTracing
 {
@@ -35,18 +36,34 @@ namespace RayTracing
             normal = glm::normalize(normal);
             auto direction = glm::normalize(light->GetDirection(position));
 
-            float diffuseFactor = glm::max(0.f, dot(normal, direction));
+            float diffuseFactor = glm::max(0.f, dot(normal, -direction));
             glm::vec3 diffuseColor = m_kd * diffuseFactor * light->m_color;
-            glm::vec3 H = glm::normalize((-direction) + (-ray->GetDirection()));  //顶点到光源 顶点到视点 角平分线
-            glm::vec3 specularColor = m_ks * light->m_color * std::pow(glm::max(0.f, glm::dot(H, normal)), m_shininess);
 
-            return glm::vec4(light->m_ambient * m_ka + diffuseColor + specularColor, m_d);
+            float specularFactor = 0.f;
+            //phong
+            {
+                //计算反射光线
+//                 glm::vec3 R = glm::normalize(direction - normal *(glm::dot(normal, direction) * 2));
+//                 specularFactor = glm::dot(-ray->GetDirection(), R);
+            }
+            //blinn-phong
+            {
+                glm::vec3 H = glm::normalize(-direction - ray->GetDirection());
+                specularFactor = glm::dot(normal, H);  //顶点到光源 顶点到视点 角平分线
+            }
+
+            glm::vec3 specularColor = m_ks * light->m_color * glm::pow(glm::max(specularFactor, 0.f), m_shininess);
+            if (specularColor.r > 0.f)
+            {
+                //std::cout << specularColor.r << std::endl;
+            }
+            return glm::vec4(light->m_ambient * m_ka + diffuseColor + specularColor , m_d);
         }
 
     private:
-		glm::vec3 m_ka{ 0.f, 0.f, 0.f, 1.f };	      //阴影色
-		glm::vec3 m_kd{ 1.f, 1.f, 1.f, 1.f };         //漫反射
-		glm::vec3 m_ks{ 1.f, 1.f, 1.f, 1.f };         //高光
+		glm::vec3 m_ka{ 0.f, 0.f, 0.f };	      //阴影色
+		glm::vec3 m_kd{ 1.f, 1.f, 1.f };         //漫反射
+		glm::vec3 m_ks{ 1.f, 1.f, 1.f };         //高光
 		float m_d{1.f};              //透明度
         float m_shininess{ 2.f };//高光系数
     };
@@ -61,7 +78,7 @@ namespace RayTracing
 
         virtual glm::vec4 ray(std::shared_ptr<Ray> ray, std::shared_ptr<Light> light, glm::vec3 position, glm::vec3 normal)
         {
-            return glm::abs((glm::floor(position.x * 0.1f) + glm::floor(position.z * m_scale)) % 2) < 1 ? glm::vec4{ 0.f, 0.f, 0.f, 255.f } : glm::vec4{ 255.f, 255.f, 255.f, 255.f };
+            return glm::abs((int)(glm::floor(position.x * 0.1f) + (int)glm::floor(position.z * m_scale)) % 2) < 1 ? glm::vec4{ 0.f, 0.f, 0.f, 1.f } : glm::vec4{ 1.f, 1.f, 1.f, 1.f };
         }
 
     private:

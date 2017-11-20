@@ -21,7 +21,7 @@ namespace RayTracing
     {
         m_ctx.reset();
         m_camera.reset();
-        m_node.reset();
+        m_scene.reset();
     }
 
     void RayTracer::Clear()
@@ -131,6 +131,7 @@ namespace RayTracing
                 {
                     auto color = result->node->GetMaterial()->ray(ray, m_light, result->position, result->normal);
                     color *= 255.f;
+                    glm::clamp(color, glm::vec4(0.f, 0.f, 0.f, 0.f), glm::vec4(255.f, 255.f, 255.f, 255.f));
                     WriteBuffer(j, i, color);
                 }
             }

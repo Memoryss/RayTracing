@@ -73,15 +73,15 @@ namespace RayTracing
 
 		auto scene = std::make_shared<Scene>();
 
-        auto simpleMaterial = std::make_shared<SimpleMaterial>(0.1);
-		auto plane = std::make_shared<Plane>();
+        auto simpleMaterial = std::make_shared<SimpleMaterial>(0.1f);
+		auto plane = std::make_shared<Plane>(glm::vec3(0.f, 1.f, 0.f), 0.f);
 		plane->SetMaterial(simpleMaterial);
 
-		auto phongMaterial1 = std::make_shared<PhongMaterial>(glm::vec3(0.f, 0.f, 1.f), glm::vec3(1.f, 1.f, 1.f), 16);
+		auto phongMaterial1 = std::make_shared<PhongMaterial>(glm::vec3(0.f, 0.f, 1.f), glm::vec3(1.f, 1.f, 1.f), 16.f);
         auto sphere1 = std::make_shared<Sphere>(glm::vec3(10, 10, -10), 10.f);
 		sphere1->SetMaterial(phongMaterial1);
 
-		auto phongMaterial2 = std::make_shared<PhongMaterial>(glm::vec3(1.f, 0.f, 0.f), glm::vec3(1.f, 1.f, 1.f), 16);
+		auto phongMaterial2 = std::make_shared<PhongMaterial>(glm::vec3(1.f, 0.f, 0.f), glm::vec3(1.f, 1.f, 1.f), 16.f);
 		auto sphere2 = std::make_shared<Sphere>(glm::vec3(-10, 10, -10), 10.f);
 		sphere2->SetMaterial(phongMaterial2);
 
@@ -91,7 +91,7 @@ namespace RayTracing
 
         m_camera = std::make_shared<Camera>(glm::vec3(0, 5, 15), glm::vec3(0, 0, -1), glm::vec3(0, 1, 0), 90.f);
         m_light = std::make_shared<DirectionLight>();
-        m_light->m_direction = glm::vec3(1, 1, 1);
+        m_light->m_direction = glm::vec3(-1.f, -1.f, -1.f);
         
         m_rayTracer->SetCamera(m_camera);
         m_rayTracer->SetScene(scene);
@@ -100,7 +100,7 @@ namespace RayTracing
 
     void DepthApp::OnUpdate()
     {
-        m_rayTracer->RenderNormal();
+        m_rayTracer->RayTrace();
     }
 
     void DepthApp::OnStop()
