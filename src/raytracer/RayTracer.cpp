@@ -5,6 +5,9 @@
 #include <glm/detail/func_geometric.hpp>
 #include "Context.h"
 #include "Material.h"
+#include "Intersect.h"
+#include "Node.h"
+#include "Ray.h"
 
 namespace RayTracing
 {
@@ -74,7 +77,7 @@ namespace RayTracing
             {
 				float ratioX = float(j) / width;
 				auto ray = m_camera->ProductRay(ratioX, ratioY);
-				auto result = m_scene->Intersect(ray);
+				auto result = m_scene->RayCast(ray, m_light);
 				if (result->node.get() != NULL)
 				{
 					glm::vec4 color;
@@ -104,7 +107,7 @@ namespace RayTracing
             {
                 float ratioX = float(j) / width;
                 auto ray = m_camera->ProductRay(ratioX, ratioY);
-                auto result = m_scene->Intersect(ray);
+                auto result = m_scene->RayCast(ray, m_light);
                 if (result->node.get() != NULL)
                 {
                     glm::vec4 color;
@@ -133,10 +136,14 @@ namespace RayTracing
             {
                 float ratioX = float(j) / width;
                 auto ray = m_camera->ProductRay(ratioX, ratioY);
-                auto result = m_scene->Intersect(ray);
+                auto result = m_scene->RayCast(ray, m_light);
                 if (result->node.get() != NULL)
                 {
-                    auto color = result->node->GetMaterial()->ray(ray, m_light, result->position, result->normal);
+                    glm::vec4 color(0.f, 0.f, 0.f, 1.f);
+                    if (!result->shadowed)
+                    {
+                        color = result->node->GetMaterial()->ray(ray, m_light, result->position, result->normal);
+                    }
                     color *= 255.f;
                     color = glm::clamp(color, glm::vec4(0.f, 0.f, 0.f, 0.f), glm::vec4(255.f, 255.f, 255.f, 255.f));
                     WriteBuffer(j, i, color);
@@ -159,7 +166,7 @@ namespace RayTracing
             {
                 float ratioX = float(j) / width;
                 auto ray = m_camera->ProductRay(ratioX, ratioY);
-                auto result = m_scene->Intersect(ray);
+                //auto result = m_scene->RayCast(ray, m_light);
                 auto color = traceOnce(ray, maxReflectLevel);
                 color *= 255.f;
                 color = glm::clamp(color, glm::vec4(0.f, 0.f, 0.f, 0.f), glm::vec4(255.f, 255.f, 255.f, 255.f));
@@ -170,7 +177,7 @@ namespace RayTracing
 
     glm::vec4 RayTracer::traceOnce(std::shared_ptr<Ray> ray, int &maxReflectLevel)
     {
-        auto result = m_scene->Intersect(ray);
+        auto result = m_scene->RayCast(ray, m_light);
         if (result->node.get() != nullptr)
         {
             float reflectiveness = result->node->GetMaterial()->GetReflectiveness();

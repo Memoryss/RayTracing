@@ -68,6 +68,13 @@ namespace RayTracing
         case 'd':
             m_position.x += 1;
             break;
+        case 'q':
+        case 'Q':
+            m_position.y += 1;
+            break;
+        case 'e':
+        case 'E':
+            m_position.y -= 1;
         default:
             break;
         }
