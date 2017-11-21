@@ -22,6 +22,8 @@ namespace RayTracing
 
         virtual void Resize(int w, int h);
 
+        virtual void OnMouseMove(int x, int y) {}
+
     protected:
 
         virtual void OnInit(int w, int h) = 0;

@@ -18,6 +18,8 @@ namespace RayTracing
         TestApp(HWND hwnd, int w, int h);
         ~TestApp();
 
+        virtual void OnMouseMove(int x ,int y) override;
+
     protected:
 
         virtual void PreUpdate() override;

@@ -21,16 +21,16 @@ namespace RayTracing
             float nDotR = glm::dot(ray->GetDirection(), m_normal);
             if (nDotR >= 0.f)
             {
-                return std::make_shared<IntersectResult>();
+                m_intersectResult->Clear();
+                return m_intersectResult;
             }
 
 			float nDotD = glm::dot(m_normal, ray->GetOrigin() - m_position);
-            auto result = std::make_shared<IntersectResult>();
-            result->node = shared_from_this();
-            result->normal = m_normal;
-			result->distance = -nDotD / nDotR; //TODO ?
-            result->position = ray->GetPoint(result->distance);
-			return result;
+            m_intersectResult->node = shared_from_this();
+            m_intersectResult->normal = m_normal;
+            m_intersectResult->distance = -nDotD / nDotR; //TODO ?
+            m_intersectResult->position = ray->GetPoint(m_intersectResult->distance);
+			return m_intersectResult;
         }
 
     private:

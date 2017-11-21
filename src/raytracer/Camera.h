@@ -16,6 +16,8 @@ namespace RayTracing
 
         std::shared_ptr<Ray> ProductRay(float x, float y);
 
+        void OnMouseMove(int dx, int dy);
+
     private:
         glm::vec3 m_position;   //相机位置
         glm::vec3 m_target;     //相机朝向
@@ -23,6 +25,8 @@ namespace RayTracing
         glm::vec3 m_right;      //相机右向量
         float m_fov;            //相机fov视角
         float m_fovScale;       //转化中间值，方面计算
+
+        std::shared_ptr<Ray> m_ray{};
     };
 }
 

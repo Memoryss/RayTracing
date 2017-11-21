@@ -11,7 +11,10 @@ namespace RayTracing {
         Ray();
         Ray(glm::vec3 &origin, glm::vec3 &direction);
 
+        void SetOrigin(glm::vec3 origin) { m_origin = origin; }
         glm::vec3 GetOrigin() const;
+
+        void SetDirection(glm::vec3 dir) { m_direction = dir; }
         glm::vec3 GetDirection() const;
 
         //根据传入的参数t 计算射线上点的位置

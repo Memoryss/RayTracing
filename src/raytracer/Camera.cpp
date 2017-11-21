@@ -1,13 +1,14 @@
 #include "Camera.h"
 #include "Ray.h"
 #include <glm/detail/func_geometric.hpp>
+#include <glm/gtx/rotate_vector.hpp>
 #include "common.h"
 
 namespace RayTracing
 {
     Camera::Camera()
     {
-
+        m_ray = std::make_shared<Ray>();
     }
 
     Camera::Camera(glm::vec3 pos, glm::vec3 target, glm::vec3 up, float fov)
@@ -16,6 +17,8 @@ namespace RayTracing
         m_right = glm::cross(m_target, m_up);
         m_up = glm::cross(m_right, m_target);
         m_fovScale = (float)tan(fov * 0.5 * M_PI / 180) * 2;
+
+        m_ray = std::make_shared<Ray>();
     }
 
     std::shared_ptr<Ray> Camera::ProductRay(float x, float y)
@@ -23,7 +26,32 @@ namespace RayTracing
         //将0~1的坐标映射到 fov上
         auto vx = m_right * float((x - 0.5) * m_fovScale);
         auto vy = m_up * float((y - 0.5) * m_fovScale);
-        return std::make_shared<Ray>(m_position, glm::normalize(m_target + vx + vy));
+        m_ray->SetOrigin(m_position);
+        m_ray->SetDirection(glm::normalize(m_target + vx + vy));
+        return m_ray;
+    }
+
+    void Camera::OnMouseMove(int dx, int dy)
+    {
+        float scale = 0.0025f;
+
+        if (dx != 0)
+        {
+            float scaleX = dx * scale;
+
+            m_position = glm::rotate(m_position, scaleX, glm::vec3(0.f, 1.f, 0.f));
+            m_target = glm::rotate(m_target, scaleX, glm::vec3(0.f, 1.f, 0.f));
+            m_right = glm::cross(m_target, m_up);
+            m_up = glm::cross(m_right, m_target);
+        }
+
+        if (dy != 0)
+        {
+            float scaleY = dy * scale;
+
+            m_right = glm::rotate(m_right, scaleY, m_target);
+            m_up = glm::cross(m_right, m_target);
+        }
     }
 
 }

@@ -38,6 +38,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uiMsg, WPARAM wParam, LPARAM lParam)
     case WM_DESTROY:
         PostQuitMessage(0);
         break;
+    case WM_MOUSEMOVE:
+        gApp->OnMouseMove(LOWORD(lParam), HIWORD(lParam));
+        break;
     default:
         break;
     }

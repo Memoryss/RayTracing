@@ -14,6 +14,11 @@ namespace RayTracing
         float distance{};               //射线与交点的距离
         glm::vec3 position;              //交点的位置
         glm::vec3 normal;               //交点的发现
+
+        void Clear()
+        {
+            node.reset();
+        }
     };
 }
 

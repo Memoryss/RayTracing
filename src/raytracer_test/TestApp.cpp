@@ -26,6 +26,20 @@ namespace RayTracing
         m_rayTracer.reset();
     }
 
+    void TestApp::OnMouseMove(int x, int y)
+    {
+        static int lastX = x;
+        static int lastY = y;
+
+        if (GetKeyState(VK_RBUTTON) & 0x80)
+        {
+            m_camera->OnMouseMove(lastX - x, lastY - y);
+        }
+
+        lastX = x;
+        lastY = y;
+    }
+
     void TestApp::PreUpdate()
     {
         m_rayTracer->Clear();
@@ -100,7 +114,7 @@ namespace RayTracing
 
     void TestApp::OnUpdate()
     {
-        m_rayTracer->RayTrace(3);
+        m_rayTracer->RenderReflect(3);
     }
 
     void TestApp::OnStop()

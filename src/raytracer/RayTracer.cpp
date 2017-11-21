@@ -119,7 +119,7 @@ namespace RayTracing
         }
     }
 
-    void RayTracer::RayTrace()
+    void RayTracer::RenderNoReflect()
     {
         int width = m_ctx->GetWidth();
         int height = m_ctx->GetHeight();
@@ -145,7 +145,7 @@ namespace RayTracing
         }
     }
 
-    void RayTracer::RayTrace(int maxReflectLevel)
+    void RayTracer::RenderReflect(int maxReflectLevel)
     {
         int width = m_ctx->GetWidth();
         int height = m_ctx->GetHeight();

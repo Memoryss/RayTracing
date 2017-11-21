@@ -15,9 +15,9 @@ namespace RayTracing
     class Node : public std::enable_shared_from_this<Node>
     {
     public:
-        Node() {}
-        Node(const glm::vec3 &pos) : m_position(pos) {}
-        Node(const glm::vec3 &pos, const std::string &name) : m_position(pos), m_name(name) {}
+        Node() { m_intersectResult = std::make_shared<IntersectResult>(); }
+        Node(const glm::vec3 &pos) : m_position(pos) { m_intersectResult = std::make_shared<IntersectResult>(); }
+        Node(const glm::vec3 &pos, const std::string &name) : m_position(pos), m_name(name) { m_intersectResult = std::make_shared<IntersectResult>(); }
 
         glm::vec3 GetPosition() const { return m_position; }
         void SetPosition(const glm::vec3 &pos) { m_position = pos; }
@@ -36,6 +36,8 @@ namespace RayTracing
         std::shared_ptr<Material> m_material;
 
         std::string m_name{};
+
+        std::shared_ptr<IntersectResult> m_intersectResult{};
     };
 }
 

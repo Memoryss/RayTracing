@@ -16,16 +16,16 @@ namespace RayTracing
             auto diff = dDotV * dDotV - minDisSqr;
             if (diff >= 0)
             {
-                auto result = std::make_shared<IntersectResult>();
-                result->distance = -dDotV - sqrt(diff);
-                result->position = ray->GetPoint(result->distance);
-                result->node = shared_from_this();
-                result->normal = normalize(result->position - m_position);
-                return result;
+                m_intersectResult->distance = -dDotV - sqrt(diff);
+                m_intersectResult->position = ray->GetPoint(m_intersectResult->distance);
+                m_intersectResult->node = shared_from_this();
+                m_intersectResult->normal = normalize(m_intersectResult->position - m_position);
+                return m_intersectResult;
             }
         }
 
-        return std::make_shared<IntersectResult>();
+        m_intersectResult->Clear();
+        return m_intersectResult;
     }
 
 }

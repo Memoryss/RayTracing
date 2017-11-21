@@ -39,9 +39,9 @@ namespace RayTracing
 
         void RenderNormal();
 
-        void RayTrace();
+        void RenderNoReflect();
 
-        void RayTrace(int maxReflectLevel);
+        void RenderReflect(int maxReflectLevel);
 
         glm::vec4 traceOnce(std::shared_ptr<Ray> ray, int &maxReflectLevel);
 
