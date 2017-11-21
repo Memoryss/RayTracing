@@ -59,6 +59,7 @@ namespace RayTracing
         case 's':
         case 'S':
             m_position.z += 1;
+            break;
         case 'a':
         case 'A':
             m_position.x -= 1;
@@ -66,6 +67,7 @@ namespace RayTracing
         case 'D':
         case 'd':
             m_position.x += 1;
+            break;
         default:
             break;
         }
