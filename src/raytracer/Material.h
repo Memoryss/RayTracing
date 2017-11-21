@@ -43,27 +43,26 @@ namespace RayTracing
             //phong
             {
                 //计算反射光线
-//                 glm::vec3 R = glm::normalize(direction - normal *(glm::dot(normal, direction) * 2));
-//                 specularFactor = glm::dot(-ray->GetDirection(), R);
+                glm::vec3 R = glm::normalize(direction - normal *(glm::dot(normal, direction) * 2));
+                specularFactor = glm::dot(-ray->GetDirection(), R);
             }
             //blinn-phong
             {
-                glm::vec3 H = glm::normalize(-direction - ray->GetDirection());
-                specularFactor = glm::dot(normal, H);  //顶点到光源 顶点到视点 角平分线
+//                 glm::vec3 H = glm::normalize(-direction - ray->GetDirection());
+//                 specularFactor = glm::dot(normal, H);  //顶点到光源 顶点到视点 角平分线
             }
 
             glm::vec3 specularColor = m_ks * light->m_color * glm::pow(glm::max(specularFactor, 0.f), m_shininess);
-            if (specularColor.r > 0.f)
-            {
-                //std::cout << specularColor.r << std::endl;
-            }
-            return glm::vec4(light->m_ambient * m_ka + diffuseColor + specularColor , m_d);
+
+            glm::vec4 color(light->m_ambient * m_ka + diffuseColor + specularColor, m_d);
+            color = glm::clamp(color, glm::vec4(0.f, 0.f, 0.f, m_d), glm::vec4(1.f, 1.f, 1.f, m_d));
+            return color;
         }
 
     private:
-		glm::vec3 m_ka{ 0.f, 0.f, 0.f };	      //阴影色
-		glm::vec3 m_kd{ 1.f, 1.f, 1.f };         //漫反射
-		glm::vec3 m_ks{ 1.f, 1.f, 1.f };         //高光
+		glm::vec3 m_ka{ 0.f, 0.f, 0.f };	        //阴影色
+		glm::vec3 m_kd{ 1.f, 1.f, 1.f };            //漫反射
+		glm::vec3 m_ks{ 1.f, 1.f, 1.f };            //高光
 		float m_d{1.f};              //透明度
         float m_shininess{ 2.f };//高光系数
     };

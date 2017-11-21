@@ -88,10 +88,10 @@ INT WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
     gApp = new RayTracing::DepthApp(hWnd, width, height);
     gApp->Init(width, height);
 
-    if (AllocConsole())
-    {
-        freopen("out.txt", "w+", stdout);
-    }
+//     if (AllocConsole())
+//     {
+//         freopen("out.txt", "w+", stdout);
+//     }
     
     MSG msg;
     memset(&msg, 0, sizeof(msg));
