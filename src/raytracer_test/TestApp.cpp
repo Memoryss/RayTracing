@@ -33,7 +33,13 @@ namespace RayTracing
 
         if (GetKeyState(VK_RBUTTON) & 0x80)
         {
-            m_camera->OnMouseMove(lastX - x, lastY - y);
+            int deltaX = lastX - x;
+            float scaleX = (float)deltaX / m_width;
+
+            int deltaY = lastY - y;
+            float scaleY = (float)deltaY / m_height;
+
+            m_camera->OnMouseMove(scaleX, scaleY);
         }
 
         lastX = x;

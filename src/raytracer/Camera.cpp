@@ -31,25 +31,19 @@ namespace RayTracing
         return m_ray;
     }
 
-    void Camera::OnMouseMove(int dx, int dy)
+    void Camera::OnMouseMove(float dx, float dy)
     {
-        float scale = 0.0025f;
-
-        if (dx != 0)
+        if (dx != 0.f)
         {
-            float scaleX = dx * scale;
-
-            m_position = glm::rotate(m_position, scaleX, glm::vec3(0.f, 1.f, 0.f));
-            m_target = glm::rotate(m_target, scaleX, glm::vec3(0.f, 1.f, 0.f));
+            m_position = glm::rotate(m_position, dx, glm::vec3(0.f, 1.f, 0.f));
+            m_target = glm::rotate(m_target, dx, glm::vec3(0.f, 1.f, 0.f));
             m_right = glm::cross(m_target, m_up);
             m_up = glm::cross(m_right, m_target);
         }
 
-        if (dy != 0)
+        if (dy != 0.f)
         {
-            float scaleY = dy * scale;
-
-            m_right = glm::rotate(m_right, scaleY, m_target);
+            m_right = glm::rotate(m_right, dy, m_target);
             m_up = glm::cross(m_right, m_target);
         }
     }

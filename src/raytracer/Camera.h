@@ -16,7 +16,7 @@ namespace RayTracing
 
         std::shared_ptr<Ray> ProductRay(float x, float y);
 
-        void OnMouseMove(int dx, int dy);
+        void OnMouseMove(float dx, float dy);
 
     private:
         glm::vec3 m_position;   //œ‡ª˙Œª÷√
