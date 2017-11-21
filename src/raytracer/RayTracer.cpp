@@ -13,8 +13,6 @@ namespace RayTracing
         assert(ctx.get() != nullptr);
         
         m_ctx = ctx;
-        m_width = ctx->GetWidth();
-        m_height = ctx->GetHeight();
     }
 
     RayTracer::~RayTracer()
@@ -64,14 +62,17 @@ namespace RayTracing
 
     void RayTracer::RenderDepth(float maxDepth)
     {
+        int width = m_ctx->GetWidth();
+        int height = m_ctx->GetHeight();
+
         assert(m_ctx.get() != nullptr || m_ctx->GetBuffer() != nullptr);
-        for (int i = 0; i < m_height; ++i)
+        for (int i = 0; i < height; ++i)
         {
             //屏幕上 向下为正y轴  与右手坐标系相反
-            float ratioY = 1 - float(i) / m_height;
-            for (int j = 0; j < m_width; ++j)
+            float ratioY = 1 - float(i) / height;
+            for (int j = 0; j < width; ++j)
             {
-				float ratioX = float(j) / m_width;
+				float ratioX = float(j) / width;
 				auto ray = m_camera->ProductRay(ratioX, ratioY);
 				auto result = m_scene->Intersect(ray);
 				if (result->node.get() != NULL)
@@ -91,14 +92,17 @@ namespace RayTracing
 
     void RayTracer::RenderNormal()
     {
+        int width = m_ctx->GetWidth();
+        int height = m_ctx->GetHeight();
+
         assert(m_ctx.get() != nullptr || m_ctx->GetBuffer() != nullptr);
-        for (int i = 0; i < m_height; ++i)
+        for (int i = 0; i < height; ++i)
         {
             //屏幕上 向下为正y轴  与右手坐标系相反
-            float ratioY = 1 - float(i) / m_height;
-            for (int j = 0; j < m_width; ++j)
+            float ratioY = 1 - float(i) / height;
+            for (int j = 0; j < width; ++j)
             {
-                float ratioX = float(j) / m_width;
+                float ratioX = float(j) / width;
                 auto ray = m_camera->ProductRay(ratioX, ratioY);
                 auto result = m_scene->Intersect(ray);
                 if (result->node.get() != NULL)
@@ -117,14 +121,17 @@ namespace RayTracing
 
     void RayTracer::RayTrace()
     {
+        int width = m_ctx->GetWidth();
+        int height = m_ctx->GetHeight();
+
         assert(m_ctx.get() != nullptr || m_ctx->GetBuffer() != nullptr);
-        for (int i = 0; i < m_height; ++i)
+        for (int i = 0; i < height; ++i)
         {
             //屏幕上 向下为正y轴  与右手坐标系相反
-            float ratioY = 1 - float(i) / m_height;
-            for (int j = 0; j < m_width; ++j)
+            float ratioY = 1 - float(i) / height;
+            for (int j = 0; j < width; ++j)
             {
-                float ratioX = float(j) / m_width;
+                float ratioX = float(j) / width;
                 auto ray = m_camera->ProductRay(ratioX, ratioY);
                 auto result = m_scene->Intersect(ray);
                 if (result->node.get() != NULL)
@@ -140,14 +147,17 @@ namespace RayTracing
 
     void RayTracer::RayTrace(int maxReflectLevel)
     {
+        int width = m_ctx->GetWidth();
+        int height = m_ctx->GetHeight();
+
         assert(m_ctx.get() != nullptr || m_ctx->GetBuffer() != nullptr);
-        for (int i = 0; i < m_height; ++i)
+        for (int i = 0; i < height; ++i)
         {
             //屏幕上 向下为正y轴  与右手坐标系相反
-            float ratioY = 1 - float(i) / m_height;
-            for (int j = 0; j < m_width; ++j)
+            float ratioY = 1 - float(i) / height;
+            for (int j = 0; j < width; ++j)
             {
-                float ratioX = float(j) / m_width;
+                float ratioX = float(j) / width;
                 auto ray = m_camera->ProductRay(ratioX, ratioY);
                 auto result = m_scene->Intersect(ray);
                 auto color = traceOnce(ray, maxReflectLevel);
@@ -191,7 +201,7 @@ namespace RayTracing
         switch (m_ctx->GetBufferType())
         {
         case RayTracing::BT_B8G8R8A8:
-            index = y * m_width + x;
+            index = y * m_ctx->GetWidth() + x;
             data = (u8*)m_ctx->GetBuffer();
             data += index * (int)BT_B8G8R8A8/8;
             *data++ = (int)color.b;

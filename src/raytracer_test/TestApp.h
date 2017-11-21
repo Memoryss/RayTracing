@@ -12,11 +12,11 @@ namespace RayTracing
     class Camera;
     class DirectionLight;
 
-    class DepthApp : public App
+    class TestApp : public App
     {
     public:
-        DepthApp(HWND hwnd, int w, int h);
-        ~DepthApp();
+        TestApp(HWND hwnd, int w, int h);
+        ~TestApp();
 
     protected:
 
@@ -26,11 +26,11 @@ namespace RayTracing
 
         virtual void OnInit(int w, int h) override;
 
-
         virtual void OnUpdate() override;
 
-
         virtual void OnStop() override;
+
+        virtual void OnResize(int w, int h) override;
 
     private:
         HWND m_hwnd;

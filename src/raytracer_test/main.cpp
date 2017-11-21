@@ -1,10 +1,10 @@
 #include <iostream>
 #include <windows.h>
-#include "DepthApp.h"
+#include "TestApp.h"
 
-RayTracing::DepthApp *gApp = nullptr;
+RayTracing::TestApp *gApp = nullptr;
 static const LPCSTR WIN32_CLASS_NAME = "Raytracing_Depth";
-const int S_WIDTH = 256, S_HEIGHT = 256;
+const int S_WIDTH = 400, S_HEIGHT = 400;
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uiMsg, WPARAM wParam, LPARAM lParam)
 {
@@ -18,16 +18,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uiMsg, WPARAM wParam, LPARAM lParam)
     case WM_CREATE:
         break;
     case WM_SIZE:
-//         if (wParam != SIZE_MINIMIZED)
-//         {
-//             RECT rc;
-//             GetClientRect(hWnd, &rc);
-// 
-//             int w = rc.right - rc.left;
-//             int h = rc.bottom - rc.top;
-// 
-//             gApp->Resize(w, h);
-//         }
+        if (wParam != SIZE_MINIMIZED)
+        {
+            RECT rc;
+            GetClientRect(hWnd, &rc);
+
+            int w = rc.right - rc.left;
+            int h = rc.bottom - rc.top;
+
+            gApp->Resize(w, h);
+        }
         break;
     case WM_LBUTTONDBLCLK:
         //gApp->OnMouseDown(0);
@@ -85,7 +85,7 @@ INT WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
     width = rc.right - rc.left;
     height = rc.bottom - rc.top;
 
-    gApp = new RayTracing::DepthApp(hWnd, width, height);
+    gApp = new RayTracing::TestApp(hWnd, width, height);
     gApp->Init(width, height);
 
 //     if (AllocConsole())

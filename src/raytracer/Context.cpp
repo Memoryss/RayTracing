@@ -6,11 +6,9 @@ namespace RayTracing
 {
 
     Context::Context(int width, int height, BufferType type)
-        : m_width(width), m_height(height), m_bufferType(type)
+        : m_bufferType(type)
     {
-        assert(width > 0 && height > 0);
-
-        m_buffer = new u8[width * height * (int)type / 8];
+        init(width, height);
     }
 
     Context::~Context()
@@ -81,4 +79,24 @@ namespace RayTracing
     {
         return m_height;
     }
+
+    void Context::Resize(int w, int h)
+    {
+        if (m_buffer != nullptr)
+        {
+            delete m_buffer;
+            m_buffer = nullptr;
+        }
+
+        init(w, h);
+    }
+
+    void Context::init(int w, int h)
+    {
+        assert(w > 0 && h > 0);
+        m_width = w;
+        m_height = h;
+        m_buffer = new u8[w * h * (int)m_bufferType / 8];
+    }
+
 }

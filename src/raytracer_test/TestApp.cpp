@@ -1,4 +1,4 @@
-#include "DepthApp.h"
+#include "TestApp.h"
 #include "Context.h"
 #include "RayTracer.h"
 #include "Sphere.h"
@@ -12,12 +12,12 @@
 namespace RayTracing
 {
 
-    DepthApp::DepthApp(HWND hwnd, int w, int h) : m_hwnd(hwnd)
+    TestApp::TestApp(HWND hwnd, int w, int h) : m_hwnd(hwnd)
     {
 
     }
 
-    DepthApp::~DepthApp()
+    TestApp::~TestApp()
     {
         DeleteObject(m_offscreenBitmap);
         DeleteDC(m_offscreenDC);
@@ -26,13 +26,13 @@ namespace RayTracing
         m_rayTracer.reset();
     }
 
-    void DepthApp::PreUpdate()
+    void TestApp::PreUpdate()
     {
         m_rayTracer->Clear();
         m_rayTracer->Begin();
     }
 
-    void DepthApp::PostUpdate()
+    void TestApp::PostUpdate()
     {
         float frameRate = 1.f / m_frameTime;
         std::stringstream ss;
@@ -48,7 +48,7 @@ namespace RayTracing
         m_rayTracer->End();
     }
 
-    void DepthApp::OnInit(int w, int h)
+    void TestApp::OnInit(int w, int h)
     {
         HDC hdc = GetDC(m_hwnd);
         m_offscreenDC = CreateCompatibleDC(hdc);
@@ -98,16 +98,26 @@ namespace RayTracing
         m_rayTracer->SetLight(m_light);
     }
 
-    void DepthApp::OnUpdate()
+    void TestApp::OnUpdate()
     {
         m_rayTracer->RayTrace(3);
     }
 
-    void DepthApp::OnStop()
+    void TestApp::OnStop()
     {
         m_ctx.reset();
         m_rayTracer.reset();
         m_scene.reset();
         m_camera.reset();
     }
+
+    void TestApp::OnResize(int w, int h)
+    {
+        DeleteObject(m_offscreenBitmap);
+        DeleteDC(m_offscreenDC);
+
+        OnInit(w, h);
+        m_ctx->Resize(w, h);
+    }
+
 }

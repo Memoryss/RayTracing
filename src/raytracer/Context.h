@@ -22,6 +22,11 @@ namespace RayTracing
         int GetWidth() const;
         int GetHeight() const;
 
+        void Resize(int w, int h);
+
+    protected:
+        void init(int w, int h);
+
     private:
         int m_width{};
         int m_height{};

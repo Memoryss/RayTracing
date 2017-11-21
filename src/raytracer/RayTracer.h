@@ -49,8 +49,6 @@ namespace RayTracing
         void WriteBuffer(int x, int y, const glm::vec4 &color);
 
     private:
-        int m_width{};
-        int m_height{};
 
         std::shared_ptr<Camera> m_camera;   //Па»ъ
 		std::shared_ptr<Scene> m_scene;     //scene

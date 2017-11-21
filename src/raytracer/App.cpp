@@ -52,6 +52,13 @@ namespace RayTracing
         OnStop();
     }
 
+    void App::Resize(int w, int h)
+    {
+        m_width = w;
+        m_height = h;
+        OnResize(w, h);
+    }
+
     unsigned long App::getTickCount()
     {
 #ifdef WIN32

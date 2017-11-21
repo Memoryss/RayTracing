@@ -20,6 +20,8 @@ namespace RayTracing
 
         virtual void Stop();
 
+        virtual void Resize(int w, int h);
+
     protected:
 
         virtual void OnInit(int w, int h) = 0;
@@ -31,6 +33,8 @@ namespace RayTracing
         virtual void PostUpdate() {}
 
         virtual void OnStop() = 0;
+
+        virtual void OnResize(int w, int h) = 0;
 
     protected:
         unsigned long getTickCount();
