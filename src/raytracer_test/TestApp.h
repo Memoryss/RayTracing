@@ -20,6 +20,10 @@ namespace RayTracing
 
         virtual void OnMouseMove(int x ,int y) override;
 
+        virtual void OnKeyDown(UINT key) override;
+
+        virtual void OnKeyRelease(UINT key) override;
+
     protected:
 
         virtual void PreUpdate() override;
@@ -28,7 +32,7 @@ namespace RayTracing
 
         virtual void OnInit(int w, int h) override;
 
-        virtual void OnUpdate() override;
+        virtual void OnUpdate(float frame) override;
 
         virtual void OnStop() override;
 

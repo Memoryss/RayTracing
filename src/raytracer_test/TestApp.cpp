@@ -46,6 +46,16 @@ namespace RayTracing
         lastY = y;
     }
 
+    void TestApp::OnKeyDown(UINT key)
+    {
+        m_camera->OnKeyDown(key);
+    }
+
+    void TestApp::OnKeyRelease(UINT key)
+    {
+        m_camera->OnKeyRelease(key);
+    }
+
     void TestApp::PreUpdate()
     {
         m_rayTracer->Clear();
@@ -118,7 +128,7 @@ namespace RayTracing
         m_rayTracer->SetLight(m_light);
     }
 
-    void TestApp::OnUpdate()
+    void TestApp::OnUpdate(float frame)
     {
         m_rayTracer->RenderReflect(3);
     }

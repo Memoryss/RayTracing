@@ -41,6 +41,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uiMsg, WPARAM wParam, LPARAM lParam)
     case WM_MOUSEMOVE:
         gApp->OnMouseMove(LOWORD(lParam), HIWORD(lParam));
         break;
+    case WM_KEYDOWN:
+        gApp->OnKeyDown((UINT)wParam);
+    case WM_KEYUP:
+        gApp->OnKeyRelease((UINT)wParam);
     default:
         break;
     }

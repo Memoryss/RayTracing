@@ -18,6 +18,10 @@ namespace RayTracing
 
         void OnMouseMove(float dx, float dy);
 
+        void OnKeyDown(unsigned int key);
+
+        void OnKeyRelease(unsigned int key);
+
     private:
         glm::vec3 m_position;   //相机位置
         glm::vec3 m_target;     //相机朝向

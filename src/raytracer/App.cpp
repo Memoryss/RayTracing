@@ -33,7 +33,7 @@ namespace RayTracing
 
         PreUpdate();
 
-        OnUpdate();
+        OnUpdate(m_frameTime);
 
         PostUpdate();
 

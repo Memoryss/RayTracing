@@ -48,4 +48,31 @@ namespace RayTracing
         }
     }
 
+    void Camera::OnKeyDown(unsigned int key)
+    {
+        switch (key)
+        {
+        case 'w':
+        case 'W':
+            m_position.z -= 1;
+            break;
+        case 's':
+        case 'S':
+            m_position.z += 1;
+        case 'a':
+        case 'A':
+            m_position.x -= 1;
+            break;
+        case 'D':
+        case 'd':
+            m_position.x += 1;
+        default:
+            break;
+        }
+    }
+
+    void Camera::OnKeyRelease(unsigned int key)
+    {
+        
+    }
 }

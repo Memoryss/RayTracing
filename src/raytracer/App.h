@@ -24,13 +24,17 @@ namespace RayTracing
 
         virtual void OnMouseMove(int x, int y) {}
 
+        virtual void OnKeyDown(unsigned int key) {}
+
+        virtual void OnKeyRelease(unsigned int key) {}
+
     protected:
 
         virtual void OnInit(int w, int h) = 0;
 
         virtual void PreUpdate() {}
 
-        virtual void OnUpdate() = 0;
+        virtual void OnUpdate(float frame) = 0;
 
         virtual void PostUpdate() {}
 
