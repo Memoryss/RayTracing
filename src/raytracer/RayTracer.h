@@ -8,7 +8,8 @@
 namespace RayTracing
 {
     enum BufferType;
-
+    
+    class Ray;
     class Light;
     class Camera;
     class Scene;
@@ -39,6 +40,10 @@ namespace RayTracing
         void RenderNormal();
 
         void RayTrace();
+
+        void RayTrace(int maxReflectLevel);
+
+        glm::vec4 traceOnce(std::shared_ptr<Ray> ray, int &maxReflectLevel);
 
     protected:
         void WriteBuffer(int x, int y, const glm::vec4 &color);

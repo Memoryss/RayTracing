@@ -131,11 +131,57 @@ namespace RayTracing
                 {
                     auto color = result->node->GetMaterial()->ray(ray, m_light, result->position, result->normal);
                     color *= 255.f;
-                    //glm::clamp(color, glm::vec4(0.f, 0.f, 0.f, 0.f), glm::vec4(255.f, 255.f, 255.f, 255.f));
+                    color = glm::clamp(color, glm::vec4(0.f, 0.f, 0.f, 0.f), glm::vec4(255.f, 255.f, 255.f, 255.f));
                     WriteBuffer(j, i, color);
                 }
             }
         }
+    }
+
+    void RayTracer::RayTrace(int maxReflectLevel)
+    {
+        assert(m_ctx.get() != nullptr || m_ctx->GetBuffer() != nullptr);
+        for (int i = 0; i < m_height; ++i)
+        {
+            //屏幕上 向下为正y轴  与右手坐标系相反
+            float ratioY = 1 - float(i) / m_height;
+            for (int j = 0; j < m_width; ++j)
+            {
+                float ratioX = float(j) / m_width;
+                auto ray = m_camera->ProductRay(ratioX, ratioY);
+                auto result = m_scene->Intersect(ray);
+                auto color = traceOnce(ray, maxReflectLevel);
+                color *= 255.f;
+                color = glm::clamp(color, glm::vec4(0.f, 0.f, 0.f, 0.f), glm::vec4(255.f, 255.f, 255.f, 255.f));
+                WriteBuffer(j, i, color);
+            }
+        }
+    }
+
+    glm::vec4 RayTracer::traceOnce(std::shared_ptr<Ray> ray, int &maxReflectLevel)
+    {
+        auto result = m_scene->Intersect(ray);
+        if (result->node.get() != nullptr)
+        {
+            float reflectiveness = result->node->GetMaterial()->GetReflectiveness();
+            auto color = result->node->GetMaterial()->ray(ray, m_light, result->position, result->normal);
+            color *= (1 - reflectiveness);  //本身颜色
+
+            //如果反射深度不为0 继续往下反射
+            if (maxReflectLevel > 0 && reflectiveness > 0.f)
+            {
+                //计算反射方向
+                auto reflectDir = ray->GetDirection() - 2 * glm::dot(result->normal, ray->GetDirection()) * result->normal;
+                ray = std::make_shared<Ray>(result->position, reflectDir);
+                //递归追踪
+                int reflectLevel = maxReflectLevel - 1;
+                color += traceOnce(ray, reflectLevel) * reflectiveness;
+            }
+
+            return color;
+        }
+        
+        return glm::vec4(0.f, 0.f, 0.f, 1.f);
     }
 
     void RayTracer::WriteBuffer(int x, int y, const glm::vec4 &color)

@@ -15,8 +15,16 @@ namespace RayTracing
     class Material
     {
     public:
+        Material(float reflectiveness) : m_reflectiveness(reflectiveness) {}
+
         //照射
         virtual glm::vec4 ray(std::shared_ptr<Ray> ray, std::shared_ptr<Light> light, glm::vec3 position, glm::vec3 normal) = 0;
+
+        float GetReflectiveness() { return m_reflectiveness; }
+
+    private:
+        float m_reflectiveness{};       //反射度属性  0表示不反射 光线全被吸收
+
     };
 
     /**
@@ -25,8 +33,8 @@ namespace RayTracing
     class PhongMaterial : public Material
     {
     public:
-		PhongMaterial(const glm::vec3 &kd, const glm::vec3 &ks, float shininess)
-			: m_kd(kd), m_ks(ks), m_shininess(shininess)
+		PhongMaterial(const glm::vec3 &kd, const glm::vec3 &ks, float shininess, float reflectiveness = 0)
+			: m_kd(kd), m_ks(ks), m_shininess(shininess), Material(reflectiveness)
 		{
 
 		}
@@ -55,7 +63,7 @@ namespace RayTracing
             glm::vec3 specularColor = m_ks * light->m_color * glm::pow(glm::max(specularFactor, 0.f), m_shininess);
 
             glm::vec4 color(light->m_ambient * m_ka + diffuseColor + specularColor, m_d);
-            color = glm::clamp(color, glm::vec4(0.f, 0.f, 0.f, m_d), glm::vec4(1.f, 1.f, 1.f, m_d));
+            //color = glm::clamp(color, glm::vec4(0.f, 0.f, 0.f, m_d), glm::vec4(1.f, 1.f, 1.f, m_d));
             return color;
         }
 
@@ -73,7 +81,7 @@ namespace RayTracing
     class SimpleMaterial : public Material
     {
     public:
-        SimpleMaterial(float scale) : m_scale(scale) {}
+        SimpleMaterial(float scale, float reflectiveness = 0) : m_scale(scale), Material(reflectiveness) {}
 
         virtual glm::vec4 ray(std::shared_ptr<Ray> ray, std::shared_ptr<Light> light, glm::vec3 position, glm::vec3 normal)
         {

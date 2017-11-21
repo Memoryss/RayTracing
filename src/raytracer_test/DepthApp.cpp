@@ -73,15 +73,15 @@ namespace RayTracing
 
 		auto scene = std::make_shared<Scene>();
 
-        auto simpleMaterial = std::make_shared<SimpleMaterial>(0.1f);
+        auto simpleMaterial = std::make_shared<SimpleMaterial>(0.1f, 0.5f);
 		auto plane = std::make_shared<Plane>(glm::vec3(0.f, 1.f, 0.f), 0.f);
 		plane->SetMaterial(simpleMaterial);
 
-		auto phongMaterial1 = std::make_shared<PhongMaterial>(glm::vec3(0.f, 0.f, 1.f), glm::vec3(1.f, 1.f, 1.f), 16.f);
+		auto phongMaterial1 = std::make_shared<PhongMaterial>(glm::vec3(0.f, 0.f, 1.f), glm::vec3(1.f, 1.f, 1.f), 16.f, 0.25f);
         auto sphere1 = std::make_shared<Sphere>(glm::vec3(10, 10, -10), 10.f);
 		sphere1->SetMaterial(phongMaterial1);
 
-		auto phongMaterial2 = std::make_shared<PhongMaterial>(glm::vec3(1.f, 0.f, 0.f), glm::vec3(1.f, 1.f, 1.f), 16.f);
+		auto phongMaterial2 = std::make_shared<PhongMaterial>(glm::vec3(1.f, 0.f, 0.f), glm::vec3(1.f, 1.f, 1.f), 16.f, 0.25f);
 		auto sphere2 = std::make_shared<Sphere>(glm::vec3(-10, 10, -10), 10.f);
 		sphere2->SetMaterial(phongMaterial2);
 
@@ -100,7 +100,7 @@ namespace RayTracing
 
     void DepthApp::OnUpdate()
     {
-        m_rayTracer->RayTrace();
+        m_rayTracer->RayTrace(3);
     }
 
     void DepthApp::OnStop()
