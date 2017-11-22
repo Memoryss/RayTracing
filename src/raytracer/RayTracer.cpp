@@ -166,7 +166,6 @@ namespace RayTracing
             {
                 float ratioX = float(j) / width;
                 auto ray = m_camera->ProductRay(ratioX, ratioY);
-                //auto result = m_scene->RayCast(ray, m_light);
                 auto color = traceOnce(ray, maxReflectLevel);
                 color *= 255.f;
                 color = glm::clamp(color, glm::vec4(0.f, 0.f, 0.f, 0.f), glm::vec4(255.f, 255.f, 255.f, 255.f));
@@ -180,8 +179,14 @@ namespace RayTracing
         auto result = m_scene->RayCast(ray, m_light);
         if (result->node.get() != nullptr)
         {
+            glm::vec4 color(0.f, 0.f, 0.f, 1.f);
+            if (result->shadowed)
+            {
+                return color;
+            }
+
             float reflectiveness = result->node->GetMaterial()->GetReflectiveness();
-            auto color = result->node->GetMaterial()->ray(ray, m_light, result->position, result->normal);
+            color = result->node->GetMaterial()->ray(ray, m_light, result->position, result->normal);
             color *= (1 - reflectiveness);  //本身颜色
 
             //如果反射深度不为0 继续往下反射
@@ -189,7 +194,9 @@ namespace RayTracing
             {
                 //计算反射方向
                 auto reflectDir = ray->GetDirection() - 2 * glm::dot(result->normal, ray->GetDirection()) * result->normal;
-                ray = std::make_shared<Ray>(result->position, reflectDir);
+                //ray = std::make_shared<Ray>(result->position, reflectDir);
+                ray->SetOrigin(result->position);
+                ray->SetDirection(reflectDir);
                 //递归追踪
                 int reflectLevel = maxReflectLevel - 1;
                 color += traceOnce(ray, reflectLevel) * reflectiveness;

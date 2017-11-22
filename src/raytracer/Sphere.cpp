@@ -6,13 +6,15 @@ namespace RayTracing
 {
     std::shared_ptr<IntersectResult> Sphere::Intersect(std::shared_ptr<Ray> ray)
     {
+        m_intersectResult->Clear();
+
         using namespace glm;
         vec3 V = ray->GetOrigin() - m_position;
         float dDotV = dot(ray->GetDirection(), V);
-        float minDisSqr = dot(V, V) - dot(m_radius, m_radius);
         //方向相反 才能看见
         if (dDotV <= 0)
         {
+            float minDisSqr = dot(V, V) - m_radius * m_radius;
             auto diff = dDotV * dDotV - minDisSqr;
             if (diff >= 0)
             {
@@ -24,7 +26,6 @@ namespace RayTracing
             }
         }
 
-        m_intersectResult->Clear();
         return m_intersectResult;
     }
 

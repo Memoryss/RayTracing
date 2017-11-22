@@ -3,6 +3,7 @@
 #include "Intersect.h"
 #include "Ray.h"
 #include "Light.h"
+#include <glm/detail//func_geometric.hpp>
 
 namespace RayTracing
 {
@@ -39,7 +40,7 @@ namespace RayTracing
         {
             m_shadowNode = m_minResult->node;
             m_shadowRay->SetOrigin(m_minResult->position);
-            m_shadowRay->SetDirection(-(light->GetDirection(m_minResult->position)));
+            m_shadowRay->SetDirection(glm::normalize(-(light->GetDirection(m_minResult->position))));
             auto result = shadowTest(m_shadowRay);
             if (result->node.get() != nullptr)
             {

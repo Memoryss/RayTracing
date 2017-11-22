@@ -130,8 +130,8 @@ namespace RayTracing
 
     void TestApp::OnUpdate(float frame)
     {
-        //m_rayTracer->RenderReflect(3);
-        m_rayTracer->RenderNoReflect();
+        m_rayTracer->RenderReflect(3);
+        //m_rayTracer->RenderNoReflect();
     }
 
     void TestApp::OnStop()
